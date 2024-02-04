@@ -19,7 +19,12 @@ rm -rf %{buildroot}
 %install
 mkdir -p ${RPM_BUILD_ROOT}%{_usrsrc}/px4_drv-%{version}
 cp -fr * ${RPM_BUILD_ROOT}%{_usrsrc}/px4_drv-%{version}/
-
+%post
+dkms add px4_drv/%{version}
+dkms build px4_drv/%{version}
+dkms install px4_drv/%{version} --force
+%preun
+dkms remove px4_drv/%{version} --all
 %files
 %{_usrsrc}/px4_drv-%{version}
 
